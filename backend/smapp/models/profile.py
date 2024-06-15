@@ -8,6 +8,7 @@ class Profile(models.Model):
     user= models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     id =models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     profile_name = models.SlugField(default='', null = False, validators=[validate_slug])
+    following = models.ManyToManyField("self", related_name="followers", blank=True, symmetrical=False)
 
     def __str__(self):
         return self.user.username

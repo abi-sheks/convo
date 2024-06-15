@@ -3,16 +3,36 @@ import ReactDOM from 'react-dom/client';
 import { ChakraProvider } from '@chakra-ui/react';
 import { extendTheme } from '@chakra-ui/react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { LandingScreen } from './routes';
+import { Home, LoginScreen, Profile, RegisterScreen, ProfileList } from './routes';
 import { persistor, store } from "./app/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
+import './index.css'
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <LandingScreen />
+    path : "/",
+    element : <Home />,
+    children : [
+      {
+        path : "/profiles",
+        element: <ProfileList />
+      },
+      {
+        path : "/profiles/:username",
+        element: <Profile />
+      }
+    ]
   },
+  {
+    path: "/login",
+    element: <LoginScreen />
+  },
+  {
+    path: "/register",
+    element: <RegisterScreen />
+  },
+
 ])
 
 const customTheme = extendTheme({

@@ -8,9 +8,15 @@ from django.contrib.auth import authenticate, login, logout
 from smapp.serializers.user import UserSerializer
 
 
+class WhoamiView(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        return Response(data={'username' : request.user.username, 'email' : request.user.email}, status=status.HTTP_200_OK)
 class RegisterView(APIView):
     permission_classes = [AllowAny, ]
-    def post(self, request, *args, **kwargs):
+    def get(self, request):
+        ...
+    def post(self, request):
         user_serializer = UserSerializer(data=request.data)
         if user_serializer.is_valid():
             user_serializer.save()
@@ -22,7 +28,7 @@ class RegisterView(APIView):
         
 class LoginView(APIView):
     permission_classes = [AllowAny, ]
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         user_serializer = UserSerializer(data=request.data)
         if user_serializer.is_valid():
             user = None
