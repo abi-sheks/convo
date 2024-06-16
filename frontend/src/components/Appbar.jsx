@@ -1,11 +1,11 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Search2Icon } from "@chakra-ui/icons"
 import {
     Avatar,
     Box, Heading, Input, InputGroup, InputRightAddon, InputLeftElement, Button,
     Menu, MenuItem, MenuButton, MenuList
 } from '@chakra-ui/react'
-
+import { useGetProfileQuery } from '../features/apiSlice'
 import { userAdded } from '../features/userSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { LOGOUT_API_ENDPOINT } from '../constants'
@@ -16,6 +16,8 @@ import { Link as RRLink } from 'react-router-dom'
 
 const Appbar = () => {
     const currentUser = useSelector(state => state.user)
+    const {data : currProfile, isSuccess} = useGetProfileQuery({profileName : currentUser.username, token : currentUser.token})
+    const [currProfileState, setCurrProfileState] = useState()
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [searchState, setSearchState] = useState("")
@@ -25,9 +27,11 @@ const Appbar = () => {
             navigate(`/profiles?query=${searchState}`)
         }
     } 
+    useEffect(()=>{
+        isSuccess && setCurrProfileState(currProfile)
+    }, [currProfile])
     const handleLogout = async () => {
         try {
-            console.log(currentUser)
             await axios.post(LOGOUT_API_ENDPOINT, JSON.stringify({}), {headers : {"Authorization" : `Token ${currentUser.token}`}})
             dispatch(userAdded({
                 username : "",
@@ -43,7 +47,7 @@ const Appbar = () => {
     return (
         <Box height="12%" width="100%" backgroundColor="white"
             display="flex" alignItems="center" justifyContent="space-between" paddingLeft="1rem" paddingRight="1rem">
-            <Heading as={RRLink} to="/home" size="md">social media app</Heading>
+            <Heading as={RRLink} to="/feed" size="md">social media app</Heading>
             <Box width="70%" display="flex">
                 <InputGroup borderRadius={5} size="sm">
                     <InputLeftElement
@@ -62,8 +66,7 @@ const Appbar = () => {
                 </InputGroup>
             </Box>
             <Menu>
-                <MenuButton as={Avatar} >
-                </MenuButton>
+                <Avatar as={MenuButton} src={isSuccess && currProfileState && currProfileState.pfp}/>
                 <MenuList>
                     <MenuItem as={RRLink} to= {`profiles/${currentUser.username}/`}>Profile</MenuItem>
                     <MenuItem onClick={handleLogout}>Logout</MenuItem>

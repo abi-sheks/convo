@@ -27,7 +27,7 @@ const LoginScreen = () => {
         }))
         //logged in
         console.log(response)
-        navigate("/")
+        navigate("/feed/")
       }
       catch(error)
       {

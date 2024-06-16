@@ -18,7 +18,7 @@ const ProfileList = () => {
         console.log(`running ${profile.user.username}`)
         return (
             <ListItem as={RRLink} to={`${profile.user.username}`} display="flex" alignItems="center" padding="1rem" key={profile.id} border="1px solid #949494" borderRadius="0.5rem" margin="0.25rem" backgroundColor="white">
-                <Avatar />
+                <Avatar src={profile.pfp}/>
                 <Text paddingLeft="1rem">
                     {profile.user.username}
                 </Text>

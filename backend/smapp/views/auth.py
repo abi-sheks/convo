@@ -6,6 +6,8 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from django.contrib.auth import authenticate, login, logout
 from smapp.serializers.user import UserSerializer
+from smapp.serializers.profile import ProfileSerializer
+from smapp.models.profile import Profile
 
 
 class WhoamiView(APIView):

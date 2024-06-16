@@ -6,7 +6,7 @@ export const apiSlice = createApi({
     baseQuery : fetchBaseQuery({
         baseUrl : BASE_API_ENDPOINT
     }),
-    tagTypes: ['Profile'],
+    tagTypes: ['Profile', 'Post'],
     endpoints : (builder) => ({
         getProfiles : builder.query({
             query : ({profileName, token}) => ({
@@ -41,11 +41,46 @@ export const apiSlice = createApi({
             }),
             invalidatesTags: (result, error, arg) => [{ type: 'Profile', id: arg.id }]
         }),
+        getPosts : builder.query({
+            query : ({token}) => ({
+                url : "posts/",
+                headers : {
+                    'Authorization' : `Token ${token}`
+                }
+            }),
+            providesTags: (result = [], error, arg) => [
+                'Post',
+                ...result.map(({ id }) => [{ type: 'Post', id }])
+            ]
+        }),
+        getPost : builder.query({
+            query : ({postID, token})=> ({
+                url : `posts/${postID}/`,
+                headers : {
+                    'Authorization' : `Token ${token}`
+                }
+            }),
+            providesTags: (result, error, arg) => [{ type: 'Post', id: arg }]
+        }),
+        addNewPost : builder.mutation({
+            query : ({post, token}) => ({
+                url : 'posts/',
+                method : "POST",
+                body : post,
+                headers : {
+                    'Authorization' : `Token ${token}`
+                }
+            }),
+            invalidatesTags : ["Post"]
+        })
     })
 })
 
 export const {
     useGetProfileQuery,
     useGetProfilesQuery,
-    useEditProfileMutation
+    useEditProfileMutation,
+    useAddNewPostMutation,
+    useGetPostQuery,
+    useGetPostsQuery
 } = apiSlice

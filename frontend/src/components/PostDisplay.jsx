@@ -1,6 +1,6 @@
 import React from 'react'
 
-const LandingScreen = () => {
+const PostDisplay = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const LandingScreen = () => {
   )
 }
 
-export default LandingScreen
+export default PostDisplay

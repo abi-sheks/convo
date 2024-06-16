@@ -2,7 +2,10 @@ from django.urls import path
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.urlpatterns import format_suffix_patterns
 from smapp.views.auth import RegisterView, LoginView, LogoutView, WhoamiView
-from smapp.views.profile import ProfileList, ProfileDetail
+from smapp.views.profile import ProfileList, ProfileDetail, ProfilePicView
+from smapp.views.post import PostList, PostDetail
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 
@@ -12,9 +15,15 @@ urlpatterns = [
     path('auth/logout/', csrf_exempt(LogoutView.as_view())),
     path('auth/whoami/', csrf_exempt(WhoamiView.as_view())),
     path('profiles/', csrf_exempt(ProfileList.as_view())),
-    path('profiles/<slug:profile_name>/', csrf_exempt(ProfileDetail.as_view()))
+    path('profiles/<slug:profile_name>/', csrf_exempt(ProfileDetail.as_view())),
+    path('posts/', csrf_exempt(PostList.as_view())),
+    path('posts/<int:id>/', csrf_exempt(PostDetail.as_view())),
+    #not proud of this one 
+    path('pfp/<slug:profile_name>/', csrf_exempt(ProfilePicView.as_view()))
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
 
+if settings.DEBUG:
+        urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 
