@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { CreatePost } from '../components'
-import { useGetPostsQuery, useGetProfileQuery } from '../features/apiSlice'
+import { CreatePost, PostDisplay } from '../components'
+import { useGetPostsQuery, useGetProfileQuery, useEditPostMutation } from '../features/apiSlice'
 import { useSelector } from 'react-redux'
-import { Grid, Avatar, Image, Text, GridItem, Box, Heading } from '@chakra-ui/react'
+import { Grid, Avatar, Image, Text, GridItem, Box, Heading, IconButton } from '@chakra-ui/react'
 import { Link as RRLink } from 'react-router-dom'
 import { PFP_API_ENDPOINT } from '../constants'
 import axios from 'axios'
+import { ChatIcon, StarIcon } from '@chakra-ui/icons'
 
 const Feed = () => {
 
@@ -15,6 +16,7 @@ const Feed = () => {
     const currentUser = useSelector(state => state.user)
     const { data: posts, isSuccess: postsSuccess, isError, postsErrored } = useGetPostsQuery({ token: currentUser.token })
     const { data: cu, isSuccess: cuSuccess, isError: cuErrored } = useGetProfileQuery({ profileName: currentUser.username, token: currentUser.token })
+    const [editPost, { isSuccess: postLiked, isError: postLikeErrored }] = useEditPostMutation()
 
     useEffect(() => {
         postsSuccess && profileState && setPostsState(posts.filter(post => profileState.following.indexOf(post.poster) != -1))
@@ -35,21 +37,47 @@ const Feed = () => {
                 console.log(error)
             }
         })
-    }, [cu])
+    }, [cu, profileState])
 
-    cuSuccess && profileState && console.log(profileState.following)
+    const handleLike = async (post) => {
+        let newPost = { ...post }
+        delete newPost.img
+        console.log(newPost.img)
+        try {
+            if (post.likers.indexOf(profileState.profile_name) === -1) {
+                //like the post
+                newPost.likers = [...post.likers, profileState.profile_name]
+            }
+            else {
+                newPost.likers = post.likers.filter(liker => liker != profileState.profile_name)
+            }
+            const response = await editPost({ post: newPost, token: currentUser.token }).unwrap()
+            console.log(response)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
+    // <>
+    {/* <GridItem key={post.id} display="flex" flexDirection="column" margin="1rem">
+        <Box display="flex" borderTopRightRadius="0.5rem" borderTopLeftRadius="0.5rem" border="0.25px solid black" padding="0.5rem" alignItems="center">
+            <Avatar src={cu && pfpMap.get(post.poster)} />
+            <Text marginLeft="1rem" as={RRLink} to={`/profiles/${post.poster}`}>{post.poster}</Text>
+        </Box>
+        <Image borderLeft="0.25px solid black" borderRight="0.25px solid black" display={post.img === "" ? "none" : "block"} src={post.img} />
+        <Box display="flex" flexDirection="column" borderLeft="0.25px solid black" borderRight="0.25px solid black">
+            <Box display="flex" >
+                <IconButton onClick={async () => await handleLike(post)} icon={<StarIcon color={cu && post.likers.indexOf(profileState.profile_name) === -1 ? "black" : "red"} />} />
+                <IconButton icon={<ChatIcon />} />
+            </Box>
+            <Text paddingLeft='0.25rem' fontWeight="bold">{post.likers.length} stars</Text>
+        </Box>
+        <Text border="0.25px solid black" padding="0.5rem" borderBottomLeftRadius="0.5rem" borderBottomRightRadius="0.5rem">{post.caption}</Text>
+    </GridItem>
+    </> */}
     const postList = postsSuccess && postsState.map(post => {
-        cuSuccess && console.log(pfpMap)
         return (
-            <GridItem key={post.id} display="flex" flexDirection="column" margin="1rem">
-                <Box display="flex" borderTopRightRadius="0.5rem" borderTopLeftRadius="0.5rem" border="0.25px solid black" padding="0.5rem" alignItems="center">
-                    <Avatar src={cu && pfpMap.get(post.poster)} />
-                    <Text marginLeft="1rem" as={RRLink} to={`/profiles/${post.poster}`}>{post.poster}</Text>
-                </Box>
-                <Image display={post.img === "" ? "none" : "block"} src={post.img} />
-                <Text as={RRLink} to={`/posts/${post.id}`} border="0.25px solid black" padding="0.5rem" borderBottomLeftRadius="0.5rem" borderBottomRightRadius="0.5rem">{post.caption}</Text>
-            </GridItem>
+            <PostDisplay key={post.id} post={post} profileState={profileState} profile={cu} cu={cu} editPost={editPost} token={currentUser.token} pfpSrc=""/>
         )
     })
 

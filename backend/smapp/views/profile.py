@@ -8,9 +8,12 @@ class ProfileList(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ProfileSerializer
     def get_queryset(self):
-        uname = self.request.query_params.get("profileName")
-        queryset = Profile.objects.filter(profile_name__contains=uname)
-        return queryset
+        if(self.request.query_params.get("profileName")):
+            uname = self.request.query_params.get("profileName")
+            queryset = Profile.objects.filter(profile_name__contains=uname)
+            return queryset
+        else:
+            return Profile.objects.all()
 
 class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]

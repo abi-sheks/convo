@@ -6,7 +6,7 @@ export const apiSlice = createApi({
     baseQuery : fetchBaseQuery({
         baseUrl : BASE_API_ENDPOINT
     }),
-    tagTypes: ['Profile', 'Post'],
+    tagTypes: ['Profile', 'Post', 'Comment'],
     endpoints : (builder) => ({
         getProfiles : builder.query({
             query : ({profileName, token}) => ({
@@ -72,6 +72,28 @@ export const apiSlice = createApi({
                 }
             }),
             invalidatesTags : ["Post"]
+        }),
+        editPost: builder.mutation({
+            query: ({ post, token }) => ({
+                url: `/posts/${post.id}/`,
+                method: 'PUT',
+                body: post,
+                headers : {
+                    'Authorization' : `Token ${token}`
+                }
+            }),
+            invalidatesTags: (result, error, arg) => [{ type: 'Post', id: arg.id }]
+        }),
+        addNewComment : builder.mutation({
+            query : ({comment, token}) => ({
+                url : 'comments/',
+                method : "POST",
+                body : comment,
+                headers : {
+                    'Authorization' : `Token ${token}`
+                }
+            }),
+            invalidatesTags : ["Comment", "Post"]
         })
     })
 })
@@ -82,5 +104,7 @@ export const {
     useEditProfileMutation,
     useAddNewPostMutation,
     useGetPostQuery,
-    useGetPostsQuery
+    useGetPostsQuery,
+    useEditPostMutation,
+    useAddNewCommentMutation
 } = apiSlice

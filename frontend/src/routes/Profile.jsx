@@ -9,14 +9,17 @@ import {
     Input,
     Grid,
     GridItem,
-    Image
+    Image,
+    IconButton
 } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
-import { useGetProfileQuery, useEditProfileMutation, useGetPostsQuery } from '../features/apiSlice'
+import { useGetProfileQuery, useEditProfileMutation, useGetPostsQuery, useEditPostMutation } from '../features/apiSlice'
+import { PostDisplay } from '../components'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDisclosure } from '@chakra-ui/react'
 import { Link as RRLink } from 'react-router-dom'
 import { getBase64 } from '../utils/base64'
+import { ChatIcon, StarIcon } from '@chakra-ui/icons'
 
 
 const Profile = () => {
@@ -36,6 +39,8 @@ const Profile = () => {
     const { data: cu, isSuccess: cuSuccess, isError: cuErrored } = useGetProfileQuery({ profileName: currentUser.username, token: currentUser.token })
     const [updateProfile, { isLoading: profileUpdateLoading, isError: profileUpdateErrored }] = useEditProfileMutation()
     const { data: posts, isSuccess: postsSuccess, isError, postsErrored } = useGetPostsQuery({ token: currentUser.token })
+    const [editPost, { isSuccess: postLiked, isError: postLikeErrored }] = useEditPostMutation()
+
 
 
     useEffect(() => {
@@ -48,14 +53,7 @@ const Profile = () => {
 
     const postList = postsSuccess && postsState.map(post => {
         return (
-            <GridItem key={post.id} display="flex" flexDirection="column" margin="1rem">
-                <Box display="flex" borderTopRightRadius="0.5rem" borderTopLeftRadius="0.5rem" border="0.25px solid black" padding="0.5rem" alignItems="center">
-                    <Avatar src={profile && profileState.pfp} />
-                    <Text marginLeft="1rem" as={RRLink} to={`/profiles/${post.poster}`}>{post.poster}</Text>
-                </Box>
-                <Image display={post.img === "" ? "none" : "block"} src={post.img} />
-                <Text as={RRLink} to={`/posts/${post.id}`} border="0.25px solid black" padding="0.5rem" borderBottomLeftRadius="0.5rem" borderBottomRightRadius="0.5rem">{post.caption}</Text>
-            </GridItem>
+            <PostDisplay key={post.id} post={post} profileState={profileState} profile={profile} cu={cu} editPost={editPost} token={currentUser.token} pfpSrc={profileState.pfp}/>
         )
     })
 
@@ -76,6 +74,26 @@ const Profile = () => {
             console.log(error)
         }
     }
+
+    const handleLike = async (post) => {
+        let newPost = { ...post }
+        delete newPost.img
+        console.log(newPost.img)
+        try {
+            if (post.likers.indexOf(profileState.profile_name) === -1) {
+                //like the post
+                newPost.likers = [...post.likers, profileState.profile_name]
+            }
+            else {
+                newPost.likers = post.likers.filter(liker => liker != profileState.profile_name)
+            }
+            const response = await editPost({ post: newPost, token: currentUser.token }).unwrap()
+            console.log(response)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const handleImageChange = (e) => {
         setPfpState(e.target.files[0])
         setShowUpload(true)

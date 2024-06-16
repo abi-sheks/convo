@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { ChakraProvider } from '@chakra-ui/react';
 import { extendTheme } from '@chakra-ui/react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import { Home, LoginScreen, Profile, RegisterScreen, ProfileList, Feed } from './routes';
+import { Home, LoginScreen, Profile, RegisterScreen, ProfileList, Feed} from './routes';
 import { persistor, store } from "./app/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
       {
         path : "/profiles/:username",
         element: <Profile />
-      }
+      },
     ]
   },
   {
