@@ -6,7 +6,7 @@ export const apiSlice = createApi({
     baseQuery : fetchBaseQuery({
         baseUrl : BASE_API_ENDPOINT
     }),
-    tagTypes: ['Profile', 'Post', 'Comment'],
+    tagTypes: ['Profile', 'Post', 'Comment', 'Message'],
     endpoints : (builder) => ({
         getProfiles : builder.query({
             query : ({profileName, token}) => ({
@@ -94,6 +94,16 @@ export const apiSlice = createApi({
                 }
             }),
             invalidatesTags : ["Comment", "Post"]
+        }),
+        getMessages : builder.query({
+            query : ({token, sender, receiver}) => ({
+                url : "messages/",
+                params : {sender, receiver},
+                headers : {
+                    'Authorization' : `Token ${token}`
+                }
+            }),
+            providesTags: ['Message']
         })
     })
 })
@@ -106,5 +116,6 @@ export const {
     useGetPostQuery,
     useGetPostsQuery,
     useEditPostMutation,
-    useAddNewCommentMutation
+    useAddNewCommentMutation,
+    useGetMessagesQuery
 } = apiSlice

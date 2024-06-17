@@ -4,3 +4,4 @@ export {default as LoginScreen} from './LoginScreen'
 export {default as RegisterScreen} from './RegisterScreen'
 export {default as Profile} from "./Profile"
 export {default as ProfileList} from "./ProfileList"
+export {default as MessageScreen} from './MessageScreen'

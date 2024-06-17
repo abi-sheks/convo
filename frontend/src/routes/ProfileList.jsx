@@ -15,7 +15,6 @@ const ProfileList = () => {
         isSuccess && setProfilesState(profiles)
     }, [profiles])
     const profileList = isSuccess && profilesState.map((profile) => {
-        console.log(`running ${profile.user.username}`)
         return (
             <ListItem as={RRLink} to={`${profile.user.username}`} display="flex" alignItems="center" padding="1rem" key={profile.id} border="1px solid #949494" borderRadius="0.5rem" margin="0.25rem" backgroundColor="white">
                 <Avatar src={profile.pfp}/>

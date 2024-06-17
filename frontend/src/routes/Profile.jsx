@@ -121,7 +121,7 @@ const Profile = () => {
                     <Button margin="0.5rem" display={profileState && currentUser.username === profileState.profile_name ? "none" : "block"} onClick={handleFollow}>
                         {cu && profileState && cu.following.indexOf(profileState.profile_name) === -1 ? "Follow" : "Unfollow"}
                     </Button>
-                    <Button margin="0.5rem" display={profileState && currentUser.username === profileState.profile_name ? "none" : "block"}>Message</Button>
+                    <Button margin="0.5rem" display={profileState && currentUser.username === profileState.profile_name ? "none" : "block"} as={RRLink} to={`/dms/${profileState && profileState.profile_name}`}>Message</Button>
                     <Box margin="0.5rem" display={profileState && currentUser.username === profileState.profile_name ? "block" : "none"}>
                         <Text margin="0.75rem">Upload profile picture</Text>
                         <Input type="file" onChange={handleImageChange}></Input>
