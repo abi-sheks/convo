@@ -3,6 +3,7 @@ import { Modal, ModalOverlay, ModalCloseButton, ModalHeader, ModalContent, Modal
 import { getBase64 } from '../utils/base64'
 import { useAddNewPostMutation } from '../features/apiSlice'
 import { useSelector } from 'react-redux'
+import { useToast } from '@chakra-ui/react'
 
 
 const CreatePost = () => {
@@ -10,6 +11,7 @@ const CreatePost = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [imageContent, setImageContent] = useState(undefined)
     const [textContent, setTextContent] = useState("")
+    const toast = useToast()
     const [addNewPost, { isSuccess, isError }] = useAddNewPostMutation()
 
     const handleImageChange = async (e) => {
@@ -37,6 +39,13 @@ const CreatePost = () => {
             console.log(response)
             onClose()
         } catch (error) {
+            toast({
+                title: 'Error',
+                description: error.err,
+                status: 'error',
+                duration: 4000,
+                isClosable: true,
+              }) 
             console.log(error)
         }
     }

@@ -10,7 +10,8 @@ import {
     Grid,
     GridItem,
     Image,
-    IconButton
+    IconButton,
+    useToast
 } from '@chakra-ui/react'
 import { useSelector } from 'react-redux'
 import { useGetProfileQuery, useEditProfileMutation, useGetPostsQuery, useEditPostMutation } from '../features/apiSlice'
@@ -41,7 +42,7 @@ const Profile = () => {
     const { data: posts, isSuccess: postsSuccess, isError, postsErrored } = useGetPostsQuery({ token: currentUser.token })
     const [editPost, { isSuccess: postLiked, isError: postLikeErrored }] = useEditPostMutation()
 
-
+    const toast = useToast()
 
     useEffect(() => {
         profSuccess && setProfileState(profile)
@@ -71,6 +72,13 @@ const Profile = () => {
             console.log(response)
 
         } catch (error) {
+            toast({
+                title: 'Error',
+                description: error.err,
+                status: 'error',
+                duration: 4000,
+                isClosable: true,
+              }) 
             console.log(error)
         }
     }
@@ -90,6 +98,13 @@ const Profile = () => {
             const response = await editPost({ post: newPost, token: currentUser.token }).unwrap()
             console.log(response)
         } catch (error) {
+            toast({
+                title: 'Error',
+                description: error.err,
+                status: 'error',
+                duration: 4000,
+                isClosable: true,
+              }) 
             console.log(error)
         }
     }
@@ -105,6 +120,13 @@ const Profile = () => {
             const response = await updateProfile({ profile: { id: cu.id, following: cu.Following, profile_name: cu.profile_name, pfp: pfpstr }, token: currentUser.token }).unwrap()
             console.log(response)
         } catch (error) {
+            toast({
+                title: 'Error',
+                description: error.err,
+                status: 'error',
+                duration: 4000,
+                isClosable: true,
+              }) 
             console.log(error)
         }
     }

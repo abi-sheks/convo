@@ -1,3 +1,4 @@
+//shouldnt be an issue exposing these for now :>
 export const BASE_API_ENDPOINT = "http://localhost:8000/api/"
 export const AUTH_API_ENDPOINT = `${BASE_API_ENDPOINT}auth/`
 export const LOGIN_API_ENDPOINT = `${AUTH_API_ENDPOINT}login/`

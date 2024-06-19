@@ -3,10 +3,12 @@ import React, { useState } from 'react'
 import { ArrowRightIcon } from '@chakra-ui/icons'
 import { useSelector } from 'react-redux'
 import { useAddNewCommentMutation } from '../features/apiSlice'
+import {useToast} from '@chakra-ui/react'
 
 const CommentsModal = ({ onClose, isOpen, postID, comments }) => {
     const currentUser = useSelector(state => state.user)
     const [content, setContent] = useState("")
+    const toast = useToast()
     const [addNewComment, { isSuccess, isError }] = useAddNewCommentMutation()
     const handleComment = async () => {
         try {
@@ -17,6 +19,13 @@ const CommentsModal = ({ onClose, isOpen, postID, comments }) => {
             console.log(response)
             setContent("")
         } catch (error) {
+            toast({
+                title: 'Error',
+                description: error.err,
+                status: 'error',
+                duration: 4000,
+                isClosable: true,
+              }) 
             console.log(error)
         }
     }

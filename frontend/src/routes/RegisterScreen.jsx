@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { REGISTER_API_ENDPOINT } from '../constants'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { useToast } from '@chakra-ui/react'
 import { Card, CardHeader, CardBody, Input, Heading, Text, CardFooter, Button, Box } from '@chakra-ui/react'
 
 const RegisterScreen = () => {
@@ -9,6 +10,7 @@ const RegisterScreen = () => {
     const [emailState, setEmailState] = useState("")
     const [passwordState, setPasswordState] = useState("")
     const [confirmPasswordState, setConfirmPasswordState] = useState("")
+    const toast = useToast()
     const navigate = useNavigate()
     const handleSubmit = async () => {
         try {
@@ -22,6 +24,13 @@ const RegisterScreen = () => {
             navigate("/")
         }
         catch (error) {
+            toast({
+                title: 'Error',
+                description: error.err,
+                status: 'error',
+                duration: 4000,
+                isClosable: true,
+              }) 
             console.log(error)
         }
     }

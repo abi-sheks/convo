@@ -6,6 +6,7 @@ import { LOGIN_API_ENDPOINT } from '../constants'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { userAdded } from '../features/userSlice'
+import { useToast } from '@chakra-ui/react'
 
 
 const LoginScreen = () => {
@@ -14,6 +15,7 @@ const LoginScreen = () => {
   const [passwordState, setPasswordState] = useState("")
   const dispatch = useDispatch()
   const navigate =useNavigate()
+  const toast = useToast()
 
   const handleSubmit = async () => {
       //logs in, gets token, and stores logged in users details to state.
@@ -31,6 +33,13 @@ const LoginScreen = () => {
       }
       catch(error)
       {
+        toast({
+          title: 'Error',
+          description: error.err,
+          status: 'error',
+          duration: 4000,
+          isClosable: true,
+        }) 
         console.log(error)
       }
   }

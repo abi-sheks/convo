@@ -24,7 +24,6 @@ const ProfileList = () => {
             </ListItem>
         )
     })
-    isSuccess && console.log(profilesState)
     return (
         <Box height="100%" width="100%" paddingTop="2rem" display="flex" flexDirection="column" alignItems="center">
             <Heading as="h4" marginTop="1rem" marginBottom="2rem">Results</Heading>
