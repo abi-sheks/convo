@@ -26,19 +26,19 @@ const PostDisplay = ({ post, profileState, profile, cu, editPost, token, pfpSrc 
   }
   return (
     <GridItem display="flex" flexDirection="column" margin="1rem">
-      <Box display="flex" borderTopRightRadius="0.5rem" borderTopLeftRadius="0.5rem" border="0.25px solid black" padding="0.5rem" alignItems="center">
+      <Box display="flex" borderTopRightRadius="0.5rem" borderTopLeftRadius="0.5rem" border="0.25px solid black" padding="0.5rem" alignItems="center" backgroundColor="white">
         <Avatar src={pfpSrc} />
-        <Text marginLeft="1rem" as={RRLink} to={`/profiles/${post.poster}`}>{post.poster}</Text>
+        <Text fontWeight={600} marginLeft="1rem" as={RRLink} to={`/profiles/${post.poster}`}>{post.poster}</Text>
       </Box>
-      <Image borderLeft="0.25px solid black" borderRight="0.25px solid black" display={post.img === "" ? "none" : "block"} src={post.img} />
-      <Box borderLeft="0.25px solid black" borderRight="0.25px solid black" display="flex" flexDirection="column">
-        <Box display="flex" >
-          <IconButton onClick={async () => await handleLike(post)} icon={<StarIcon color={cu && post.likers.indexOf(profileState.profile_name) === -1 ? "black" : "red"} />} />
-          <IconButton onClick={onOpen} icon={<ChatIcon />} />
+      <Image borderLeft="0.25px solid black" borderRight="0.25px solid black" display={post.img === "" ? "none" : "block"} src={post.img}  boxSize={400} />
+      <Box borderLeft="0.25px solid black" borderRight="0.25px solid black" display="flex" flexDirection="column" backgroundColor="white">
+        <Box display="flex" margin="0.5rem" >
+          <IconButton marginRight="0.25rem" colorScheme='primary' onClick={async () => await handleLike(post)} icon={<StarIcon color={cu && post.likers.indexOf(profileState.profile_name) === -1 ? "white" : "red"} />} />
+          <IconButton colorScheme='primary' onClick={onOpen} icon={<ChatIcon />} />
         </Box>
-        <Text paddingLeft="0.25rem" fontWeight="bold">{post.likers.length} stars</Text>
+        <Text marginBottom="0.25rem" marginLeft="0.5rem" paddingLeft="0.25rem" fontWeight="bold">{post.likers.length} stars</Text>
       </Box>
-      <Text border="0.25px solid black" padding="0.5rem" borderBottomLeftRadius="0.5rem" borderBottomRightRadius="0.5rem">{post.caption}</Text>
+      <Text backgroundColor="white" border="0.25px solid black" paddingRight="0.75rem" paddingTop="1rem" paddingBottom="1rem" paddingLeft="0.75rem">{post.caption}</Text>
       <CommentsModal isOpen={isOpen} onClose={onClose} postID={post.id} comments={post.comment_set}/>
     </GridItem>
   )

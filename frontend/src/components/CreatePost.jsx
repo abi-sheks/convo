@@ -42,27 +42,27 @@ const CreatePost = () => {
     }
     return (
         <div>
-            <Button onClick={onOpen}>Create a post</Button>
+            <Button mt={4} colorScheme='primary' onClick={onOpen}>Create a post</Button>
             <Modal onClose={() => {
                 setImageContent(undefined)
                 onClose()
             }} isOpen={isOpen}>
                 <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader display="flex" justifyContent="center">Create a new post</ModalHeader>
+                <ModalContent minWidth="650px" display="flex" flexDirection="column" alignItems="center">
+                    <ModalHeader size="xl" display="flex" justifyContent="center">Create a new post</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <Box>
                             <Input type='file' onChange={handleImageChange} />
                             <Image display={imageContent ? "block" : "none"} marginTop="1rem" boxSize="400px" objectFit="contain" marginBottom="1rem" border="1px solid black" src={imageContent} />
                         </Box>
-                        <Box>
-                            <Text marginBottom="1rem">Caption your post : </Text>
+                        <Box margin="1rem">
+                            <Text marginBottom="0.5rem">Caption your post : </Text>
                             <Textarea value={textContent} onChange={(e) => setTextContent(e.target.value)}></Textarea>
                         </Box>
                     </ModalBody>
                     <ModalFooter display="flex" justifyContent="center">
-                        <Button onClick={handlePost}>Post</Button>
+                        <Button size='lg' colorScheme='primary' onClick={handlePost}>Post</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

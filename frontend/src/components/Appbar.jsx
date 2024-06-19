@@ -45,7 +45,7 @@ const Appbar = () => {
         }
     }
     return (
-        <Box height="12%" width="100%" backgroundColor="white"
+        <Box height="10%" width="100%" backgroundColor="white"
             display="flex" alignItems="center" justifyContent="space-between" paddingLeft="1rem" paddingRight="1rem">
             <Heading as={RRLink} to="/feed" size="md">social media app</Heading>
             <Box width="70%" display="flex">
@@ -59,7 +59,7 @@ const Appbar = () => {
                         p={0}
                         border="none"
                     >
-                        <Button size="sm" borderLeftRadius={0} borderRightRadius={3.3} border="1px solid #949494" onClick={handleSearch}>
+                        <Button colorScheme='primary' size="sm" borderLeftRadius={0} borderRightRadius={3.3} border="1px solid #949494" onClick={handleSearch}>
                             Search
                         </Button>
                     </InputRightAddon>

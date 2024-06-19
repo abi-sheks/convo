@@ -37,25 +37,26 @@ const LoginScreen = () => {
   return (
     <Card backgroundColor="secondary" height="80%" width="60%" border>
       <CardHeader>
-        <Heading textAlign="center">Login</Heading>
+        <Heading textAlign="center" mb={4}>Connect with your friends.</Heading>
+        <Text textAlign="center" fontSize="3xl">Login</Text>
       </CardHeader>
       <CardBody display="flex" flexDirection="column" justifyContent="space-around">
         <div>
-          <Text>Username</Text>
+          <Text fontSize="xl" mb={3}>Username</Text>
           <Input value={usernameState} onChange={(e) => setUsernameState(e.target.value)} type='text' />
         </div>
         <div>
-          <Text>Email</Text>
+          <Text fontSize="xl" mb={3}>Email</Text>
           <Input value={emailState} onChange={(e) => setEmailState(e.target.value)} type='text' />
         </div>
         <div>
-          <Text>Password</Text>
+          <Text fontSize="xl" mb={3}>Password</Text>
           <Input value={passwordState} onChange={(e) => setPasswordState(e.target.value)} type='password' />
         </div>
       </CardBody>
       <CardFooter display="flex" justifyContent="center" alignItems='center'>
-        <Button colorScheme='primary' onClick={handleSubmit} marginRight='1rem'>Login</Button>
-        <ChakraLink as={RRLink} to='/register'>New? Register</ChakraLink>
+        <Button size="lg" colorScheme='primary' onClick={handleSubmit} marginRight='1rem'>Login</Button>
+        <ChakraLink size="lg" as={RRLink} to='/register'>New? Register</ChakraLink>
       </CardFooter>
     </Card>
   )

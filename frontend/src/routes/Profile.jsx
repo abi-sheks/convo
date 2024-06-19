@@ -114,18 +114,18 @@ const Profile = () => {
                 <Avatar marginTop="2rem" size="2xl" display="block" src={profileState && profileState.pfp} />
                 <Heading>{username}</Heading>
                 <Box display="flex" width="100%" alignItems="center" justifyContent="center">
-                    <Text onClick={followersOnOpen} margin="0.75rem">Followers</Text>
-                    <Text onClick={followingOnOpen} margin="0.75rem">Following</Text>
+                    <Text padding="0.5rem" fontWeight={600} onClick={followersOnOpen} margin="0.25rem">Followers</Text>
+                    <Text padding="0.5rem" fontWeight={600} onClick={followingOnOpen} margin="0.25rem">Following</Text>
                 </Box>
                 <Box display="flex" width="100%" alignItems="center" justifyContent="center">
-                    <Button margin="0.5rem" display={profileState && currentUser.username === profileState.profile_name ? "none" : "block"} onClick={handleFollow}>
+                    <Button colorScheme="primary" margin="0.5rem" display={profileState && currentUser.username === profileState.profile_name ? "none" : "block"} onClick={handleFollow}>
                         {cu && profileState && cu.following.indexOf(profileState.profile_name) === -1 ? "Follow" : "Unfollow"}
                     </Button>
-                    <Button margin="0.5rem" display={profileState && currentUser.username === profileState.profile_name ? "none" : "block"} as={RRLink} to={`/dms/${profileState && profileState.profile_name}`}>Message</Button>
+                    <Button paddingTop="0.55rem" colorScheme="primary" margin="0.5rem" display={profileState && currentUser.username === profileState.profile_name ? "none" : "block"} as={RRLink} to={`/dms/${profileState && profileState.profile_name}`}>Message</Button>
                     <Box margin="0.5rem" display={profileState && currentUser.username === profileState.profile_name ? "block" : "none"}>
-                        <Text margin="0.75rem">Upload profile picture</Text>
+                        <Heading size="sm" margin="0.75rem">Upload profile picture</Heading>
                         <Input type="file" onChange={handleImageChange}></Input>
-                        <Button display={showUpload ? "block" : "none"} onClick={handleUpload}>Upload</Button>
+                        <Button colorScheme='primary' marginTop="0.5rem" display={showUpload ? "block" : "none"} onClick={handleUpload}>Upload</Button>
                     </Box>
                 </Box>
             </Box>

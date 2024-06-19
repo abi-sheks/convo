@@ -19,7 +19,7 @@ const Feed = () => {
     const [editPost, { isSuccess: postLiked, isError: postLikeErrored }] = useEditPostMutation()
 
     useEffect(() => {
-        postsSuccess && profileState && setPostsState(posts.filter(post => profileState.following.indexOf(post.poster) != -1))
+        postsSuccess && profileState && setPostsState(posts.filter(post => profileState.following.indexOf(post.poster) != -1 || post.poster === profileState.profile_name))
     }, [posts, profileState])
     useEffect(() => {
         cuSuccess && setProfileState(cu)
@@ -37,6 +37,8 @@ const Feed = () => {
                 console.log(error)
             }
         })
+        const replica = pfpMap
+        replica.set(profileState.profile_name, profileState.pfp)
     }, [cu, profileState])
 
     const handleLike = async (post) => {
@@ -57,34 +59,16 @@ const Feed = () => {
             console.log(error)
         }
     }
-
-    // <>
-    {/* <GridItem key={post.id} display="flex" flexDirection="column" margin="1rem">
-        <Box display="flex" borderTopRightRadius="0.5rem" borderTopLeftRadius="0.5rem" border="0.25px solid black" padding="0.5rem" alignItems="center">
-            <Avatar src={cu && pfpMap.get(post.poster)} />
-            <Text marginLeft="1rem" as={RRLink} to={`/profiles/${post.poster}`}>{post.poster}</Text>
-        </Box>
-        <Image borderLeft="0.25px solid black" borderRight="0.25px solid black" display={post.img === "" ? "none" : "block"} src={post.img} />
-        <Box display="flex" flexDirection="column" borderLeft="0.25px solid black" borderRight="0.25px solid black">
-            <Box display="flex" >
-                <IconButton onClick={async () => await handleLike(post)} icon={<StarIcon color={cu && post.likers.indexOf(profileState.profile_name) === -1 ? "black" : "red"} />} />
-                <IconButton icon={<ChatIcon />} />
-            </Box>
-            <Text paddingLeft='0.25rem' fontWeight="bold">{post.likers.length} stars</Text>
-        </Box>
-        <Text border="0.25px solid black" padding="0.5rem" borderBottomLeftRadius="0.5rem" borderBottomRightRadius="0.5rem">{post.caption}</Text>
-    </GridItem>
-    </> */}
     const postList = postsSuccess && postsState.map(post => {
         return (
-            <PostDisplay key={post.id} post={post} profileState={profileState} profile={cu} cu={cu} editPost={editPost} token={currentUser.token} pfpSrc=""/>
+            <PostDisplay key={post.id} post={post} profileState={profileState} profile={cu} cu={cu} editPost={editPost} token={currentUser.token} pfpSrc={pfpMap.get(post.poster)}/>
         )
     })
 
     return (
         <Box display="flex" flexDirection="column" alignItems="center" paddingTop="1rem">
+            <Heading size="2xl" margin="1rem"> Your feed </Heading>
             <CreatePost />
-            <Heading> Your feed </Heading>
             <Grid width="80%" templateColumns="repeat(3, 1fr)">
                 {postList}
             </Grid>

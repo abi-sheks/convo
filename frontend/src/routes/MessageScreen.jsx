@@ -38,14 +38,14 @@ const MessageScreen = () => {
     }
     const messageList = messagesState && messagesState.map(message => {
         return (
-            <Box alignSelf={message.sender === currentUser.username ? "flex-end" : "flex-start"} padding="0.5rem" marginTop="0.25rem" marginBottom="0.25rem" key={message.id} width="60%" border="1px solid black" borderRadius="0.5rem" backgroundColor={message.sender === currentUser.username ? "secondary" : "primary"}>
-                <Text fontWeight="bold">{message.sender}</Text>
-                <Text>{message.content}</Text>
+            <Box alignSelf={message.sender === currentUser.username ? "flex-end" : "flex-start"} padding="1rem" marginTop="0.25rem" marginBottom="0.25rem" key={message.id} width="60%" border="1px solid black" borderRadius="0.5rem" backgroundColor={message.sender === currentUser.username ? "	#00008B" : "secondary"}>
+                <Text color={message.sender === currentUser.username ? "white" : "black"} fontWeight="bold">{message.sender}</Text>
+                <Text color={message.sender === currentUser.username ? "white" : "black"} >{message.content}</Text>
             </Box>
         )
     })
     return (
-        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="space-between" paddingTop="2rem" height="100%" width="100%">
+        <Box display="flex" flexDirection="column" alignItems="center" justifyContent="space-between" paddingTop="2rem" height="90%" width="100%">
             <Box display="flex" flexDirection="column" alignItems="center">
                 <Avatar size="xl" src={profile && profile.pfp} />
                 <Heading>Your chat with {username}</Heading>
@@ -55,7 +55,7 @@ const MessageScreen = () => {
             </Box>
             <Box display="flex" width="80%">
                 <Input variant="outline" value={message} onChange={(e) => setMessage(e.target.value)} placehoder="Enter your message..." backgroundColor="white" />
-                <Button onClick={handleMessageSend}>Send</Button>
+                <Button marginLeft="1rem" colorScheme='primary' onClick={handleMessageSend}>Send</Button>
             </Box>
         </Box>
     )
