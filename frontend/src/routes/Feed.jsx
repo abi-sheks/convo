@@ -38,7 +38,7 @@ const Feed = () => {
             }
         })
         const replica = pfpMap
-        replica.set(profileState.profile_name, profileState.pfp)
+        profileState && replica.set(profileState.profile_name, profileState.pfp)
     }, [cu, profileState])
 
     const handleLike = async (post) => {

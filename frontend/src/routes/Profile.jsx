@@ -54,7 +54,7 @@ const Profile = () => {
 
     const postList = postsSuccess && postsState.map(post => {
         return (
-            <PostDisplay key={post.id} post={post} profileState={profileState} profile={profile} cu={cu} editPost={editPost} token={currentUser.token} pfpSrc={profileState.pfp}/>
+            <PostDisplay key={post.id} post={post} profileState={profileState} profile={profile} cu={cu} editPost={editPost} token={currentUser.token} pfpSrc={profileState.pfp} />
         )
     })
 
@@ -78,7 +78,7 @@ const Profile = () => {
                 status: 'error',
                 duration: 4000,
                 isClosable: true,
-              }) 
+            })
             console.log(error)
         }
     }
@@ -104,7 +104,7 @@ const Profile = () => {
                 status: 'error',
                 duration: 4000,
                 isClosable: true,
-              }) 
+            })
             console.log(error)
         }
     }
@@ -126,7 +126,7 @@ const Profile = () => {
                 status: 'error',
                 duration: 4000,
                 isClosable: true,
-              }) 
+            })
             console.log(error)
         }
     }
@@ -136,8 +136,14 @@ const Profile = () => {
                 <Avatar marginTop="2rem" size="2xl" display="block" src={profileState && profileState.pfp} />
                 <Heading>{username}</Heading>
                 <Box display="flex" width="100%" alignItems="center" justifyContent="center">
-                    <Text padding="0.5rem" fontWeight={600} onClick={followersOnOpen} margin="0.25rem">Followers</Text>
-                    <Text padding="0.5rem" fontWeight={600} onClick={followingOnOpen} margin="0.25rem">Following</Text>
+                    <Box display='flex' alignItems='center'  margin="0.25rem">
+                        <Text fontWeight='bold'>{profileState && profileState.followers.length}</Text>
+                        <Text padding="0.5rem" fontWeight={600} onClick={followersOnOpen}>Followers</Text>
+                    </Box>
+                    <Box display='flex' alignItems='center' margin="0.25rem">
+                        <Text fontWeight='bold'>{profileState && profileState.following.length}</Text>
+                        <Text padding="0.5rem" fontWeight={600} onClick={followingOnOpen}>Following</Text>
+                    </Box>
                 </Box>
                 <Box display="flex" width="100%" alignItems="center" justifyContent="center">
                     <Button colorScheme="primary" margin="0.5rem" display={profileState && currentUser.username === profileState.profile_name ? "none" : "block"} onClick={handleFollow}>
@@ -151,7 +157,7 @@ const Profile = () => {
                     </Box>
                 </Box>
             </Box>
-            <Grid width="100%" templateColumns='repeat(3, 1fr)'>
+            <Grid width="80%" templateColumns='repeat(3, 1fr)'>
                 {postList}
             </Grid>
             {/* modals for display of followers and following list */}

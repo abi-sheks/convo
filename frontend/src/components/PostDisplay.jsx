@@ -43,7 +43,7 @@ const PostDisplay = ({ post, profileState, profile, cu, editPost, token, pfpSrc 
       <Image borderLeft="0.25px solid black" borderRight="0.25px solid black" display={post.img === "" ? "none" : "block"} src={post.img} boxSize={400} />
       <Box borderLeft="0.25px solid black" borderRight="0.25px solid black" display="flex" flexDirection="column" backgroundColor="white">
         <Box display="flex" margin="0.5rem" >
-          <IconButton marginRight="0.25rem" colorScheme='primary' onClick={async () => await handleLike(post)} icon={<StarIcon color={cu && post.likers.indexOf(profileState.profile_name) === -1 ? "white" : "red"} />} />
+          <IconButton marginRight="0.25rem" colorScheme='primary' onClick={async () => await handleLike(post)} icon={<StarIcon color={cu && post.likers.indexOf(cu.profile_name) === -1 ? "white" : "red"} />} />
           <IconButton colorScheme='primary' onClick={onOpen} icon={<ChatIcon />} />
         </Box>
         <Text marginBottom="0.25rem" marginLeft="0.5rem" paddingLeft="0.25rem" fontWeight="bold">{post.likers.length} stars</Text>

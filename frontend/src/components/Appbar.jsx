@@ -47,7 +47,7 @@ const Appbar = () => {
     return (
         <Box height="10%" width="100%" backgroundColor="white"
             display="flex" alignItems="center" justifyContent="space-between" paddingLeft="1rem" paddingRight="1rem">
-            <Heading as={RRLink} to="/feed" size="md">social media app</Heading>
+            <Heading as={RRLink} to="/feed" size="md">convo</Heading>
             <Box width="70%" display="flex">
                 <InputGroup borderRadius={5} size="sm">
                     <InputLeftElement
